@@ -14,7 +14,11 @@ LDLIBS    = -lwiringPi -lpthread -lm
 SRC	=	main.c bsp.c Display_COG_Process.c Display_Controller.c \
 		Display_Hardware_Driver.c
 
+TEST_SRC =	test_main.c AsciiImageConverter.c
+
 OBJ	=	$(SRC:.c=.o)
+
+TEST_OBJ =	$(TEST_SRC:.c=.o)
 
 APP	=	epaper
 
@@ -35,5 +39,10 @@ tags:	$(SRC)
 
 depend:
 	makedepend -Y $(SRC)
+
+test: test_$(APP) 
+
+test_$(APP): $(TEST_OBJ)
+	$(CC) -o test_$(APP) $(TEST_OBJ) $(INCLUDE)
 
 # DO NOT DELETE
