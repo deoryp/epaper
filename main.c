@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 {
 
 	uint8_t* pOldImg;
-	uint8_t* pOldImg;
+	uint8_t* pImg;
 	unsigned char FileImage[176][33];
 	
 	memset((uint8_t*)&PreloadImage[0][0], 0xff, 176*33);
