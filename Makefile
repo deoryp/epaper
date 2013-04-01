@@ -12,7 +12,7 @@ LDLIBS    = -lwiringPi -lpthread -lm
 
 
 SRC	=	main.c bsp.c Display_COG_Process.c Display_Controller.c \
-		Display_Hardware_Driver.c
+		Display_Hardware_Driver.c AsciiImageConverter.c
 
 TEST_SRC =	test_main.c AsciiImageConverter.c
 
