@@ -1,7 +1,7 @@
 /*****************************************************************************
  *
- *   Copyright(C) 2012, Embedded Artists AB
- *   All rights reserved.
+ *	 Copyright(C) 2012, Embedded Artists AB
+ *	 All rights reserved.
  *
  ******************************************************************************
  * Software that is described herein is for illustrative purposes only
@@ -27,6 +27,8 @@
 #include "Image_PDlogo.h"
 #include <string.h>
 
+#include "AsciiImageConverter.h"
+
 /******************************************************************************
  * Typedefs and defines
  *****************************************************************************/
@@ -42,37 +44,47 @@
 /******************************************************************************
  * Main method
  *****************************************************************************/
-int main(void)
+int main(int argc, char *argv[])
 {
 
-  uint8_t* pOldImg;
+	uint8_t* pOldImg;
+	uint8_t* pOldImg;
+	unsigned char FileImage[176][33];
+	
+	memset((uint8_t*)&PreloadImage[0][0], 0xff, 176*33);
+	pOldImg = (uint8_t*)&PreloadImage[0][0];
 
-  printf("Starting E-paper demo\n");
-  
-  bsp_init();
-  
+	memset((uint8_t*)&FileImage[0][0], 0xff, 176*33);
+	pImg = (uint8_t*)&FileImage[0][0];
 
-  memset((uint8_t*)&PreloadImage[0][0], 0xff, 176*33);
-  pOldImg = (uint8_t*)&PreloadImage[0][0];
+	printf("Starting E-paper demo\n");
+	
+	bsp_init();
+	
+	if (argc > 1) {
+		printf("Image from file %s\n", argv[1]); 
+		asciiImage_readImage(argv[1], pImg, 176, 33);
+		epd_DisplayImg(DISPLAY_IN_USE, pImg, pOldImg);	
+		return 1;
+	}	
 
-  while(1)
-  {
-    printf("EA Image\n");
-    epd_DisplayImg(DISPLAY_IN_USE, (uint8_t*)&ImageDataEA[0][0], pOldImg);
-    pOldImg = (uint8_t*)&ImageDataEA[0][0];
+	while(1) {
+		printf("EA Image\n");
+		epd_DisplayImg(DISPLAY_IN_USE, (uint8_t*)&ImageDataEA[0][0], pOldImg);
+		pOldImg = (uint8_t*)&ImageDataEA[0][0];
 
-    bsp_delayMs(10000);
+		bsp_delayMs(10000);
 
-    printf("PD Image\n");
-    epd_DisplayImg(DISPLAY_IN_USE, (uint8_t*)&ImageDataPD[0][0], pOldImg);
-    pOldImg = (uint8_t*)&ImageDataPD[0][0];
-
-
-    bsp_delayMs(10000);
-  }
+		printf("PD Image\n");
+		epd_DisplayImg(DISPLAY_IN_USE, (uint8_t*)&ImageDataPD[0][0], pOldImg);
+		pOldImg = (uint8_t*)&ImageDataPD[0][0];
 
 
-  return 1;
+		bsp_delayMs(10000);
+	}
+
+
+	return 1;
 }
 
 
